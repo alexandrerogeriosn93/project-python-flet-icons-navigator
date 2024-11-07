@@ -10,6 +10,6 @@ def create_icon_container(icon_name: str) -> ft.Container:
         content=ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            controls=[ft.Icon(name=icon_name, size=50), ft.Text(name=icon_name)],
+            controls=[ft.Icon(name=icon_name, size=50), ft.Text(value=icon_name)],
         ),
     )
