@@ -22,6 +22,29 @@ def main(page: ft.Page):
         else:
             favorites.append(icon_name)
 
+    def show_favorties(event: None):
+        page.clean()
+        favorites_grid.controls = []
+
+        for icon_name in favorites:
+            favorites_grid.controls.append(
+                create_icon_container(icon_name=icon_name, on_favorite=favorite_icon)
+            )
+
+        layout = ft.Column(
+            expand=True,
+            controls=[
+                ft.Text(
+                    "Ícones favoritos",
+                    style=ft.TextStyle(size=24, weight=ft.FontWeight.BOLD),
+                ),
+                favorites_grid,
+                ft.ElevatedButton("Voltar", on_click=show_search_page),
+            ],
+        )
+
+        page.add(layout)
+
     def search_icons(event: ft.ControlEvent):
         search_value = event.control.value.upper()
         icons_grid.controls = []
@@ -44,6 +67,7 @@ def main(page: ft.Page):
         )
 
         global icons_grid
+        global favorites_grid
 
         icons_grid = ft.GridView(
             expand=True, max_extent=200, controls=[], child_aspect_ratio=1.0
@@ -59,6 +83,7 @@ def main(page: ft.Page):
                 search_bar,
                 icons_grid,
                 ft.ElevatedButton("Alterar tema visual", on_click=toggle_dark_mode),
+                ft.ElevatedButton("Ver favoritos", on_click=show_favorties),
             ],
         )
 
