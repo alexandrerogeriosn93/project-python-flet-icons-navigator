@@ -3,6 +3,8 @@ from icon_container import create_icon_container
 
 is_dark_mode = False
 icons_grid = None
+favorites = []
+favorites_grid = None
 
 
 def main(page: ft.Page):
@@ -14,13 +16,23 @@ def main(page: ft.Page):
 
         page.update()
 
+    def favorite_icon(icon_name: str):
+        if icon_name in favorites:
+            favorites.remove(icon_name)
+        else:
+            favorites.append(icon_name)
+
     def search_icons(event: ft.ControlEvent):
         search_value = event.control.value.upper()
         icons_grid.controls = []
 
         for icon_name in dir(ft.icons):
             if search_value in icon_name:
-                icons_grid.controls.append(create_icon_container(icon_name=icon_name))
+                icons_grid.controls.append(
+                    create_icon_container(
+                        icon_name=icon_name, on_favorite=favorite_icon
+                    )
+                )
 
         icons_grid.update()
 
@@ -34,6 +46,10 @@ def main(page: ft.Page):
         global icons_grid
 
         icons_grid = ft.GridView(
+            expand=True, max_extent=200, controls=[], child_aspect_ratio=1.0
+        )
+
+        favorites_grid = ft.GridView(
             expand=True, max_extent=200, controls=[], child_aspect_ratio=1.0
         )
 
